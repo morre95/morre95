@@ -30,8 +30,8 @@ I'm a **AI engineer student** passionate about building cool AI stuff. Currently
 
 ### 📊 GitHub Stats
 ![Stats](./profile/stats.svg)
-![Erik's GitHub stats](https://github-readme-stats.vercel.app/api?username=morre95&show_icons=true)
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=morre95&layout=compact&theme=radical)
+![Top Languages](./profile/top-langs.svg)
+![Pinned](./profile/pin-readme-tools-github-readme-stats.svg)
 
 ---
 
