@@ -27,6 +27,7 @@ I'm a **[Your Role, e.g., Full-Stack Developer / Data Scientist]** passionate ab
 ---
 
 ### 📊 GitHub Stats
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
 ![Erik's GitHub stats](https://github-readme-stats.vercel.app/api?username=morre95&show_icons=true)
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=morre95&layout=compact&theme=radical)
 
