@@ -7,13 +7,12 @@
 ---
 
 ### 💫 About Me
-I'm a **[Your Role, e.g., Full-Stack Developer / Data Scientist]** passionate about building [What you love, e.g., scalable web apps / AI models]. Currently, I'm focusing on **[Your Current Project or Learning Goal]**.
+I'm a **AI engineer student** passionate about building cool AI stuff. Currently, I'm focusing on **![DigitalTips](https://github.com/morre95/DigitalTips)**.
 
-- 🔭 I’m currently working on **[Project Name]**
-- 🌱 I’m currently learning **[Specific Technology]**
-- 👯 I’m looking to collaborate on **[Type of Projects]**
-- 💬 Ask me about **[Topics you're an expert in]**
-- ⚡ Fun fact: **[Something quirky about you]**
+- 🔭 I’m currently working on **MentalLoadManager**
+- 🌱 I’m currently learning **AI stuff**
+- 👯 I’m looking to collaborate on **DigitalTips**
+- 💬 Ask me about **meditation**
 
 ---
 
@@ -27,7 +26,7 @@ I'm a **[Your Role, e.g., Full-Stack Developer / Data Scientist]** passionate ab
 ---
 
 ### 📊 GitHub Stats
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
+![Stats](./profile/stats.svg)
 ![Erik's GitHub stats](https://github-readme-stats.vercel.app/api?username=morre95&show_icons=true)
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=morre95&layout=compact&theme=radical)
 
