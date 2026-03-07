@@ -39,9 +39,12 @@ I'm a **AI engineer student** passionate about building cool AI stuff. Currently
 ---
 
 ### 📊 GitHub Stats
-![Stats](./profile/stats.svg)
+
 ![Top Languages](./profile/top-langs.svg)
-![WakaTime](profile/waka-time-stats.svg)
+
+![Stats](./profile/stats.svg)
+
+<!-- ![WakaTime](profile/waka-time-stats.svg) -->
 
 ---
 
