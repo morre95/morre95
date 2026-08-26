@@ -42,7 +42,7 @@ I'm a **AI engineer student** passionate about building cool AI stuff. Currently
 
 ![Top Languages](./profile/top-langs.svg)
 
-![Stats](./profile/stats.svg)
+<!-- ![Stats](./profile/stats.svg) -->
 
 <!-- ![WakaTime](profile/waka-time-stats.svg) -->
 
