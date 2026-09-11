@@ -5,6 +5,10 @@ on:
     - cron: "0 0 1 * *" # Runs once first day of month at midnight
   workflow_dispatch:
 
+concurrency:
+  group: readme-cards-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,15 +57,35 @@ jobs:
       - name: Validate generated cards
         run: |
           if grep -El "Something went wrong|Resource not accessible|Could not resolve" \
-            profile/stats.svg profile/top-langs.svg profile/waka-time-stats.svg; then
+            profile/stats.svg profile/top-langs.svg \
+            profile/pin-readme-tools-github-readme-stats.svg \
+            profile/waka-time-stats.svg; then
             echo "One or more README cards contain an error response."
             exit 1
           fi
 
-      - name: Commit cards
+      - name: Commit and push cards safely
         run: |
           git config user.name "morre95"
           git config user.email "erik.moren78@gmail.com"
           git add profile/*.svg
-          git commit -m "Update README cards" || exit 0
-          git push
+          if git diff --cached --quiet; then
+            echo "README cards are already up to date."
+            exit 0
+          fi
+          git commit -m "Update README cards"
+
+          for attempt in 1 2 3; do
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              exit 0
+            fi
+
+            echo "Push attempt $attempt failed; retrying after syncing again."
+            sleep $((attempt * 5))
+          done
+
+          echo "Unable to push README cards after three attempts."
+          exit 1
