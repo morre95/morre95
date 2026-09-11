@@ -57,12 +57,14 @@ jobs:
       - name: Validate generated cards
         run: |
           if grep -El "Something went wrong|Resource not accessible|Could not resolve" \
-            profile/stats.svg profile/top-langs.svg profile/waka-time-stats.svg; then
+            profile/stats.svg profile/top-langs.svg \
+            profile/pin-readme-tools-github-readme-stats.svg \
+            profile/waka-time-stats.svg; then
             echo "One or more README cards contain an error response."
             exit 1
           fi
 
-      - name: Commit cards
+      - name: Commit and push cards safely
         run: |
           git config user.name "morre95"
           git config user.email "erik.moren78@gmail.com"
