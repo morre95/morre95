@@ -11,6 +11,9 @@ jobs:
 
     permissions:
       contents: write
+      discussions: read
+      issues: read
+      pull-requests: read
 
     steps:
       - uses: actions/checkout@v6
@@ -43,9 +46,17 @@ jobs:
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: wakatime
-          options: username=octocat&layout=compact
+          options: username=${{ github.repository_owner }}&layout=compact
           path: profile/waka-time-stats.svg
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate generated cards
+        run: |
+          if grep -El "Something went wrong|Resource not accessible|Could not resolve" \
+            profile/stats.svg profile/top-langs.svg profile/waka-time-stats.svg; then
+            echo "One or more README cards contain an error response."
+            exit 1
+          fi
 
       - name: Commit cards
         run: |

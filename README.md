@@ -44,7 +44,7 @@ I'm a **AI engineer student** passionate about building cool AI stuff. Currently
 
 ![Stats](./profile/stats.svg)
 
-![WakaTime](profile/waka-time-stats.svg)
+![WakaTime](./profile/waka-time-stats.svg)
 
 ---
 
