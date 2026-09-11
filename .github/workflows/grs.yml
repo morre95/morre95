@@ -1,4 +1,5 @@
 name: Update README cards
+run-name: Update README cards (safe push @ ${{ github.sha }})
 
 on:
   schedule:
@@ -74,5 +75,18 @@ jobs:
             exit 0
           fi
           git commit -m "Update README cards"
-          git pull --rebase origin "$GITHUB_REF_NAME"
-          git push origin "HEAD:$GITHUB_REF_NAME"
+
+          for attempt in 1 2 3; do
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              exit 0
+            fi
+
+            echo "Push attempt $attempt failed; retrying after syncing again."
+            sleep $((attempt * 5))
+          done
+
+          echo "Unable to push README cards after three attempts."
+          exit 1
