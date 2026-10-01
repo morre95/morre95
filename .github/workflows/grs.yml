@@ -56,73 +56,6 @@ jobs:
           token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
           fail_on_error: 'true'
 
-      - name: Generate wakaTime card
-        id: wakatime
-        continue-on-error: true
-        uses: stats-organization/github-readme-stats-action@v2
-        with:
-          card: wakatime
-          options: username=${{ vars.WAKATIME_USERNAME || github.repository_owner }}&layout=compact
-          path: ${{ runner.temp }}/waka-time-stats.svg
-          token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
-          fail_on_error: 'true'
-
-      # WakaTime is a separate service: a missing public account should not
-      # prevent GitHub cards from updating. Other generation errors still fail.
-      - name: Handle WakaTime result
-        env:
-          WAKATIME_OUTCOME: ${{ steps.wakatime.outcome }}
-          WAKATIME_ERROR_TYPE: ${{ steps.wakatime.outputs.error_type }}
-          WAKATIME_CANDIDATE: ${{ runner.temp }}/waka-time-stats.svg
-        shell: python
-        run: |
-          import os
-          from pathlib import Path
-          import shutil
-          import xml.etree.ElementTree as ET
-
-          target = Path("profile/waka-time-stats.svg")
-          if os.environ["WAKATIME_OUTCOME"] == "success":
-              shutil.copyfile(os.environ["WAKATIME_CANDIDATE"], target)
-          elif os.environ["WAKATIME_ERROR_TYPE"] == "WAKATIME_USER_NOT_FOUND":
-              message = (
-                  "No public WakaTime profile was found. Set the repository variable "
-                  "WAKATIME_USERNAME to your public WakaTime username. "
-                  "GitHub cards will still be updated."
-              )
-              print(f"::warning::{message}")
-              with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
-                  summary.write(f"### WakaTime unavailable\n\n{message}\n")
-              # Keep a previous valid card; replace only missing/broken cards
-              # with an honest placeholder, never with fabricated statistics.
-              try:
-                  root = ET.parse(target).getroot()
-                  text = " ".join(root.itertext())
-                  valid = root.tag == "{http://www.w3.org/2000/svg}svg" and not any(
-                      error in text for error in (
-                          "Something went wrong", "Resource not accessible",
-                          "Could not resolve", "Repository Not found",
-                      )
-                  )
-              except (OSError, ET.ParseError):
-                  valid = False
-              if not valid:
-                  target.parent.mkdir(parents=True, exist_ok=True)
-                  target.write_text(
-                      '<svg xmlns="http://www.w3.org/2000/svg" width="495" height="90" '
-                      'role="img" aria-labelledby="title description">'
-                      '<title id="title">WakaTime statistics unavailable</title>'
-                      '<desc id="description">A public WakaTime profile is required.</desc>'
-                      '<rect width="494" height="89" x=".5" y=".5" rx="5" '
-                      'fill="#fff" stroke="#e4e2e2"/>'
-                      '<text x="20" y="35" fill="#2f80ed" font-family="sans-serif" '
-                      'font-size="18">WakaTime statistics unavailable</text>'
-                      '<text x="20" y="62" fill="#434d58" font-family="sans-serif" '
-                      'font-size="13">A public WakaTime profile is required.</text></svg>\n'
-                  )
-          else:
-              raise SystemExit("WakaTime generation failed; see the generation step for details.")
-
       - name: Validate generated cards
         shell: python
         run: |
@@ -133,7 +66,6 @@ jobs:
               "stats.svg",
               "top-langs.svg",
               "pin-readme-tools-github-readme-stats.svg",
-              "waka-time-stats.svg",
           ]
           errors = []
           for name in cards:
