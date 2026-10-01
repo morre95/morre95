@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "0 0 1 * *" # Runs once first day of month at midnight
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/grs.yml'
 
 concurrency:
   group: readme-cards-${{ github.ref }}
@@ -26,46 +30,70 @@ jobs:
           fetch-depth: 0
 
       - name: Generate stats card
-        uses: readme-tools/github-readme-stats-action@v1
+        uses: stats-organization/github-readme-stats-action@v2
         with:
           card: stats
-          options: username=${{ github.repository_owner }}&show_icons=true&show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage
+          options: username=${{ github.repository_owner }}&show_icons=true
           path: profile/stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+          fail_on_error: 'true'
 
       - name: Generate top languages card
-        uses: readme-tools/github-readme-stats-action@v1
+        uses: stats-organization/github-readme-stats-action@v2
         with:
           card: top-langs
           options: username=${{ github.repository_owner }}&layout=compact&langs_count=6&hide_progress=true
           path: profile/top-langs.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+          fail_on_error: 'true'
 
       - name: Generate pin card
-        uses: readme-tools/github-readme-stats-action@v1
+        uses: stats-organization/github-readme-stats-action@v2
         with:
           card: pin
-          options: username=readme-tools&repo=github-readme-stats
+          options: username=stats-organization&repo=github-readme-stats
           path: profile/pin-readme-tools-github-readme-stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+          fail_on_error: 'true'
 
       - name: Generate wakaTime card
-        uses: readme-tools/github-readme-stats-action@v1
+        uses: stats-organization/github-readme-stats-action@v2
         with:
           card: wakatime
-          options: username=${{ github.repository_owner }}&layout=compact
+          options: username=${{ vars.WAKATIME_USERNAME || github.repository_owner }}&layout=compact
           path: profile/waka-time-stats.svg
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.README_STATS_TOKEN || secrets.GITHUB_TOKEN }}
+          fail_on_error: 'true'
 
       - name: Validate generated cards
+        shell: python
         run: |
-          if grep -El "Something went wrong|Resource not accessible|Could not resolve" \
-            profile/stats.svg profile/top-langs.svg \
-            profile/pin-readme-tools-github-readme-stats.svg \
-            profile/waka-time-stats.svg; then
-            echo "One or more README cards contain an error response."
-            exit 1
-          fi
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          cards = [
+              "stats.svg",
+              "top-langs.svg",
+              "pin-readme-tools-github-readme-stats.svg",
+              "waka-time-stats.svg",
+          ]
+          errors = []
+          for name in cards:
+              path = Path("profile") / name
+              try:
+                  root = ET.parse(path).getroot()
+                  if root.tag != "{http://www.w3.org/2000/svg}svg":
+                      raise ValueError("Not an SVG document")
+                  text = " ".join(root.itertext())
+                  if any(message in text for message in (
+                      "Something went wrong", "Resource not accessible",
+                      "Could not resolve", "Repository Not found",
+                  )):
+                      raise ValueError(text)
+              except (OSError, ET.ParseError, ValueError) as error:
+                  errors.append(f"{path}: {error}")
+          if errors:
+              raise SystemExit("\\n".join(errors))
 
       - name: Commit and push cards safely
         run: |
