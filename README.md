@@ -27,6 +27,8 @@ I'm a **AI engineer student** passionate about building cool AI stuff. Currently
   <img src="https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" />
   <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" />
   <img src="https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white" />
+  <img src="https://img.shields.io/badge/Anthropic-191919?style=for-the-badge&logo=anthropic&logoColor=white" />
+  <img src="https://img.shields.io/badge/LM%20Studio-4338CA?style=for-the-badge&logo=lmstudio&logoColor=white" />
   <img src="https://img.shields.io/badge/Whisper-74AA9C?style=for-the-badge&logo=openai&logoColor=white" />
   <img src="https://img.shields.io/badge/Deepgram-13EF93?style=for-the-badge&logoColor=black" />
   <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" />
