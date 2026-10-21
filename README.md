@@ -1,7 +1,7 @@
 # Hi there, I'm Erik Morén! 👋
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=morre95&label=Profile%20views&color=0e75b6&style=flat" alt="Views" />
+  <img src="gh-profile-bilden.jpg" alt="My Projects" />
 </p>
 
 ---
