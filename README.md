@@ -7,9 +7,9 @@
 ---
 
 ### 💫 About Me
-I'm a **AI engineer student** passionate about building cool AI stuff. Currently, I'm focusing on **[DigitalTips](https://github.com/morre95/DigitalTips)**.
+I'm a **AI engineer student** passionate about building cool AI stuff. Currently, I'm focusing on **[neuroTune](https://github.com/morre95/neuroTune)**.
 
-- 🔭 I’m currently working on **MentalLoadManager**
+- 🔭 I’m currently working on **DreamWhisper**
 - 🌱 I’m currently learning **AI stuff**
 - 👯 I’m looking to collaborate on **DigitalTips**
 - 💬 Ask me about **meditation**
